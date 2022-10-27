@@ -7,6 +7,7 @@ var cityName = '';
 var setter;
 var lon = 0;
 var lat = 0;
+var sent = false;
 
 function cityRequest(county){
     cityName = county;
@@ -27,7 +28,15 @@ function cityRequest(county){
         temp.type = 'button';
         temp.classList.add('btn');
         temp.value = cityName;
-        aside.appendChild(temp);
+        aside.appendChild(temp);   
+        btns = document.querySelectorAll('.btn');
+
+        btns.forEach(val => {
+            val.addEventListener('click', (e) =>{
+                e.preventDefault();
+                newBtn(val);
+            });
+        });
 
         lon = setter.coord.lon;
         lat = setter.coord.lat;
@@ -51,13 +60,13 @@ function forecast(){
     fetch(request)
     .then(response => response.json())
     .then(data => {
-        // console.log('This is data', data);
+        console.log('This is data', data);
         num.zero   = data.list[0].main.temp; 
         num.one    = data.list[7].main.temp;
         num.two    = data.list[14].main.temp;
         num.three  = data.list[21].main.temp;
         num.four   = data.list[28].main.temp;
-        // console.log(num)
+        console.log(num)
 
         temps.forEach(temp => {
             if(count == 5){
@@ -84,6 +93,12 @@ function forecast(){
             count++;
         });
 
+        num.zero   = data.list[0].wind.speed; 
+        num.one    = data.list[7].wind.speed;
+        num.two    = data.list[14].wind.speed;
+        num.three  = data.list[21].wind.speed;
+        num.four   = data.list[28].wind.speed;
+
         winds.forEach(wind => {
             if(count == 5){
                 count = 0;
@@ -108,6 +123,12 @@ function forecast(){
     
             count++;
         });
+
+        num.zero   = data.list[0].main.humidity; 
+        num.one    = data.list[7].main.humidity;
+        num.two    = data.list[14].main.humidity;
+        num.three  = data.list[21].main.humidity;
+        num.four   = data.list[28].main.humidity;
 
         hums.forEach(hum => {
             if(count == 5){
@@ -176,6 +197,15 @@ function forecast(){
     // console.log(temps);
     // console.log(winds);
     // console.log(hums);
+}
+
+function newBtn(btn){
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        sent = true;
+        cityRequest(btn.value);
+        console.log('you called the function newBtn', btn);
+    });
 }
 
 var currentDay = moment().format('MMMM Do YYYY');
