@@ -55,6 +55,10 @@ input{
     margin: 20px 5px;
 }
 
+#blocks{
+    margin-left: 260px;
+}
+
 #blocks h2{
     margin-top: 20px;
     margin-bottom: 10px;
