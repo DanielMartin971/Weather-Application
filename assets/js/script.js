@@ -10,7 +10,7 @@ var lat = 0;
 
 function cityRequest(county){
     cityName = county;
-    console.log(cityName);
+    // console.log(cityName);
     var requestURL = 'https://api.openweathermap.org/data/2.5/weather?q='+cityName+'&units=imperial&appid=a4bddbfa58913317f6eb36cabdfea609';
 
     fetch(requestURL)
@@ -51,13 +51,13 @@ function forecast(){
     fetch(request)
     .then(response => response.json())
     .then(data => {
-        console.log('This is data', data);
+        // console.log('This is data', data);
         num.zero   = data.list[0].main.temp; 
         num.one    = data.list[7].main.temp;
         num.two    = data.list[14].main.temp;
         num.three  = data.list[21].main.temp;
         num.four   = data.list[28].main.temp;
-        console.log(num)
+        // console.log(num)
 
         temps.forEach(temp => {
             if(count == 5){
@@ -172,22 +172,21 @@ function forecast(){
         count++;
     });
 
-    console.log(days);
-    console.log(temps);
-    console.log(winds);
-    console.log(hums);
+    // console.log(days);
+    // console.log(temps);
+    // console.log(winds);
+    // console.log(hums);
 }
 
 var currentDay = moment().format('MMMM Do YYYY');
-
 
 var city     = document.getElementById('city-name-date');
 var cityTemp = document.getElementById('city-temp');
 var cityWind = document.getElementById('city-wind');
 var cityHum  = document.getElementById('city-hum');
 
-var btns = document.querySelectorAll('.btn');
-var search = document.querySelector('#search');
+var btns      = document.querySelectorAll('.btn');
+var search    = document.querySelector('#search');
 var searchBtn = document.querySelector('.searchBtn')
 
 btns.forEach(val => {
@@ -199,5 +198,7 @@ btns.forEach(val => {
 
 searchBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    console.log('you clicked a btn');
     cityRequest(search.value);
+    search.value = '';
 });
