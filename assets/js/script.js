@@ -38,19 +38,117 @@ function cityRequest(county){
 }
 
 function forecast(){
-    var request = 'https://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&appid=a4bddbfa58913317f6eb36cabdfea609';
+    var request = 'https://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lon+'&units=imperial&appid=a4bddbfa58913317f6eb36cabdfea609';
+    var num = {
+        zero:0,
+        one:0,
+        two:0,
+        three:0,
+        four:0
+    };
+    var count = 0;
 
     fetch(request)
     .then(response => response.json())
-    .then(response => console.log(response))
+    .then(data => {
+        console.log('This is data', data);
+        num.zero   = data.list[0].main.temp; 
+        num.one    = data.list[7].main.temp;
+        num.two    = data.list[14].main.temp;
+        num.three  = data.list[21].main.temp;
+        num.four   = data.list[28].main.temp;
+        console.log(num)
 
-    var days = document.querySelectorAll('.day');
-    var count = 0;
+        temps.forEach(temp => {
+            if(count == 5){
+                count = 0;
+            }
+            
+            if(count == 0){
+                temp.textContent = 'Temp: ' + num.zero + ' F';
+            }
+            else if(count == 1){
+                temp.textContent = 'Temp: ' + num.one + ' F';
+            }
+            else if(count == 2){
+                temp.textContent = 'Temp: ' + num.two + ' F';
+            }
+            else if(count == 3){
+                temp.textContent = 'Temp: ' + num.three + ' F';
+            }
+            else if(count == 4){
+                temp.textContent = 'Temp: ' + num.four + ' F';
+            }
+    
+    
+            count++;
+        });
+
+        winds.forEach(wind => {
+            if(count == 5){
+                count = 0;
+            }
+            
+            if(count == 0){
+                wind.textContent = 'Wind: ' + num.zero + ' MPH';
+            }
+            else if(count == 1){
+                wind.textContent = 'Wind: ' + num.one + ' MPH';
+            }
+            else if(count == 2){
+                wind.textContent = 'Wind: ' + num.two + ' MPH';
+            }
+            else if(count == 3){
+                wind.textContent = 'Wind: ' + num.three + ' MPH';
+            }
+            else if(count == 4){
+                wind.textContent = 'Wind: ' + num.four + ' MPH';
+            }
+    
+    
+            count++;
+        });
+
+        hums.forEach(hum => {
+            if(count == 5){
+                count = 0;
+            }
+            
+            if(count == 0){
+                hum.textContent = 'Humidity: ' + num.zero + ' %';
+            }
+            else if(count == 1){
+                hum.textContent = 'Humidity: ' + num.one + ' %';
+            }
+            else if(count == 2){
+                hum.textContent = 'Humidity: ' + num.two + ' %';
+            }
+            else if(count == 3){
+                hum.textContent = 'Humidity: ' + num.three + ' %';
+            }
+            else if(count == 4){
+                hum.textContent = 'Humidity: ' + num.four + ' %';
+            }
+    
+    
+            count++;
+        });
+    })
+
+    var days  = document.querySelectorAll('.day');
+    var temps = document.querySelectorAll('.temp');
+    var winds = document.querySelectorAll('.wind');
+    var hums  = document.querySelectorAll('.hum');
+
+    
     days.forEach(day => {
         //mom is used for the date because direct use of moment for textContent would give error
         //list is being used for the rest of the attributes in the articles
         var mom = 0
-        var list;
+        if(count === 5){
+            count = 0;
+        }
+
         if(count === 0){
             mom = moment().add(1, 'days').format('MMMM Do YYYY');
             day.textContent = mom;
@@ -72,8 +170,12 @@ function forecast(){
             day.textContent = mom;
         }
         count++;
-    })
+    });
+
     console.log(days);
+    console.log(temps);
+    console.log(winds);
+    console.log(hums);
 }
 
 var currentDay = moment().format('MMMM Do YYYY');
